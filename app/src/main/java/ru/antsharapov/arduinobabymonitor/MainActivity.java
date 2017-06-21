@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 
     String res, url, time;
     Timer timer = new Timer();
-    TextView temp_lvl, humi_lvl;
+    TextView temp_lvl, humi_lvl, adc;
     ProgressBar snd_lvl;
     int sound_level;
     View root;
@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
 
         temp_lvl = (TextView) findViewById(R.id.templevelTV);
         humi_lvl = (TextView) findViewById(R.id.humilevelTV);
+        adc = (TextView) findViewById(R.id.adcTV);
         snd_lvl = (ProgressBar) findViewById(R.id.progressBar);
 
         snd_lvl.setScaleY(10f);
@@ -94,7 +95,7 @@ public class MainActivity extends Activity {
                         prefs.edit().putString("url", url).apply();
                         prefs.edit().putString("time", time).apply();
 
-                        Toast.makeText(MainActivity.this, "Saved Successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -140,11 +141,12 @@ public class MainActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(),res,Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_LONG).show();
                             temp_lvl.setText(result[0]+" °C");
                             humi_lvl.setText(result[1]+" %");
                             sound_level = Integer.parseInt(result[2]);
                             snd_lvl.setProgress(sound_level);
+                            adc.setText(sound_level + " / 1023");
                             if ((sound_level>=341) && (sound_level<682))
                             {
                                 root = findViewById(android.R.id.content);
@@ -167,12 +169,12 @@ public class MainActivity extends Activity {
                         }
                     });
                 } catch (final IOException e) {
-                    runOnUiThread(new Runnable() {
+                   /* runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                         }
-                    });
+                    });*/
                     e.printStackTrace();
                 }
             }

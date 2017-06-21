@@ -109,8 +109,8 @@ public class MainActivity extends Activity {
 
     public static String getHtml(String url) throws IOException {
         URLConnection connection = (new URL(url)).openConnection();
-        connection.setConnectTimeout(1000);
-        connection.setReadTimeout(1000);
+        connection.setConnectTimeout(5000);
+        connection.setReadTimeout(5000);
         connection.connect();
         InputStream in = connection.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));

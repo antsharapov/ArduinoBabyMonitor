@@ -2,7 +2,7 @@
 #include "DHT.h"
 
 #define DHTPIN 5
-#define DHTTYPE DHT11
+#define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 const char *ssid =      "wlan_144";      
 const char *pass =      "qscvhi@#$%qsc";

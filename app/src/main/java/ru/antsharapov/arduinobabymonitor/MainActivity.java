@@ -52,6 +52,8 @@ public class MainActivity extends Activity {
         humi_lvl = (TextView) findViewById(R.id.humilevelTV);
         snd_lvl = (ProgressBar) findViewById(R.id.progressBar);
 
+        snd_lvl.setScaleY(10f);
+
         start_timer();
 
         Button exit_btn = (Button) findViewById(R.id.exitbutton);

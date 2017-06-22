@@ -147,7 +147,7 @@ public class MainActivity extends Activity {
                             sound_level = Integer.parseInt(result[2]);
                             snd_lvl.setProgress(sound_level);
                             adc.setText(sound_level + " / 1023");
-                            if ((sound_level>=600 && sound_level < 700))
+                            if (sound_level>=600)
                             {
                                 root = findViewById(android.R.id.content);
                                 root.setBackgroundColor(Color.parseColor("#f0e5a5"));

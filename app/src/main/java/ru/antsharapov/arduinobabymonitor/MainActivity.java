@@ -147,14 +147,14 @@ public class MainActivity extends Activity {
                             sound_level = Integer.parseInt(result[2]);
                             snd_lvl.setProgress(sound_level);
                             adc.setText(sound_level + " / 1023");
-                            if ((sound_level>=50) && (sound_level<100))
+                            if ((sound_level>=600 && sound_level < 700))
                             {
                                 root = findViewById(android.R.id.content);
                                 root.setBackgroundColor(Color.parseColor("#f0e5a5"));
                                 ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
                             }
-                            else if (sound_level>=100)
+                            else if (sound_level<600)
                             {
                                 root = findViewById(android.R.id.content);
                                 root.setBackgroundColor(Color.parseColor("#ff4f00"));

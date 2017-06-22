@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
                             humi_lvl.setText(result[1]+" %");
                             sound_level = Integer.parseInt(result[2]);
                             snd_lvl.setProgress(sound_level);
-                            adc.setText(sound_level + " / 1023");
+                            adc.setText((-sound_level) + " / 1023");
                             if (sound_level>=450 && sound_level < 520)
                             {
                                 root = findViewById(android.R.id.content);

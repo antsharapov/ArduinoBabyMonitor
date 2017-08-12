@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 
     String res, url, time;
     Timer timer = new Timer();
-    TextView temp_lvl, humi_lvl, adc;
+    TextView temp_lvl, humi_lvl, adc, pres_lvl;
     ProgressBar snd_lvl;
     int sound_level;
     View root;
@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
         humi_lvl = (TextView) findViewById(R.id.humilevelTV);
         adc = (TextView) findViewById(R.id.adcTV);
         snd_lvl = (ProgressBar) findViewById(R.id.progressBar);
+        pres_lvl = (TextView) findViewById(R.id.pres_edit_tv);
 
         snd_lvl.setScaleY(10f);
 
@@ -166,6 +167,7 @@ public class MainActivity extends Activity {
                                 root = findViewById(android.R.id.content);
                                 root.setBackgroundColor(Color.parseColor("#c5edd7"));
                             }
+                            pres_lvl.setText(result[3]+" mmHg");
                         }
                     });
                 } catch (final IOException e) {

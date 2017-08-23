@@ -127,6 +127,7 @@ public class MainActivity extends Activity {
     }
 
     public void start_timer (){
+        final ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         this.timer = new Timer();
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -148,17 +149,17 @@ public class MainActivity extends Activity {
                             sound_level = 1023 - Integer.parseInt(result[2]);
                             snd_lvl.setProgress(sound_level);
                             adc.setText((sound_level) + " / 1023");
-                            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                             if (sound_level>=510 && sound_level <= 520)
                             {
                                 root = findViewById(android.R.id.content);
                                 root.setBackgroundColor(Color.parseColor("#f0e5a5"));
                                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
                                 try {
-                                    toneG.wait(200);
+                                    Thread.sleep(300);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
+                                toneG.stopTone();
                             }
                             else if (sound_level>520)
                             {
@@ -166,10 +167,11 @@ public class MainActivity extends Activity {
                                 root.setBackgroundColor(Color.parseColor("#ff4f00"));
                                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000);
                                 try {
-                                    toneG.wait(1000);
+                                    Thread.sleep(1500);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
+                                toneG.stopTone();
                             }
                             else
                             {
@@ -177,8 +179,6 @@ public class MainActivity extends Activity {
                                 root.setBackgroundColor(Color.parseColor("#c5edd7"));
                             }
                             pres_lvl.setText(result[3]+" mmHg");
-                            toneG.release();
-
                         }
                     });
                 } catch (final IOException e) {

@@ -1,11 +1,14 @@
 #include <ESP8266WiFi.h>
-#include "DHT.h"
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
 
-#define DHTPIN 5
-#define DHTTYPE DHT22
-DHT dht(DHTPIN, DHTTYPE);
-const char *ssid =      "wlan_144";      
-const char *pass =      "qscvhi@#$%qsc";
+#define SEALEVELPRESSURE_HPA (1013.25)
+
+Adafruit_BME280 bme;
+
+const char *ssid =      "chip&dale";      
+const char *pass =      "BwAx45$%";
 WiFiServer server(80);
 IPAddress ip(192,168,1,128);
 IPAddress gateway(192,168,1,1);
@@ -25,7 +28,14 @@ void setup() {
   Serial.print("WiFi connected, using IP address: ");
   Serial.println(WiFi.localIP()); 
   server.begin();
-  dht.begin();
+
+bool status;
+    status = bme.begin();
+    if (!status) {
+        Serial.println("Could not find a valid BME280 sensor, check wiring!");
+        while (1);
+    }
+    
 }
 
 void loop() {
@@ -36,9 +46,10 @@ void loop() {
    while(!client.available()){
     delay(1);
   }
-  delay(3000);
-  float h = dht.readHumidity();
-  float t = dht.readTemperature();
+  delay(1500);
+  float h = bme.readHumidity();
+  float t = bme.readTemperature();
+  float p = (bme.readPressure() / 100.0F) * 0.75006375541921;
   int s = analogRead(A0);
   String req = client.readStringUntil('\r');
   client.println("HTTP/1.1 200 OK");
@@ -53,6 +64,8 @@ void loop() {
   client.print(h);
   client.print(":");
   client.print(s);
+  client.print(":");
+  client.print(p);
   client.println("</body></html>");
   delay(1);
   client.stop();  

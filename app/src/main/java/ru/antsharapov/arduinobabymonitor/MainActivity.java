@@ -45,8 +45,8 @@ public class MainActivity extends Activity {
         url=prefs.getString("url", "");
         time=prefs.getString("time", "");
 
-        if (url.equals("")) url="http://192.168.0.128/baby.html";
-        if (time.equals("")) time="5";
+        if (url.equals("")) url="http://192.168.1.128/";
+        if (time.equals("")) time="2";
 
         temp_lvl = (TextView) findViewById(R.id.templevelTV);
         humi_lvl = (TextView) findViewById(R.id.humilevelTV);
@@ -145,22 +145,31 @@ public class MainActivity extends Activity {
                             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_LONG).show();
                             temp_lvl.setText(result[0]+" °C");
                             humi_lvl.setText(result[1]+" %");
-                            sound_level = Integer.parseInt(result[2]);
-                            snd_lvl.setProgress(1023-sound_level);
-                            adc.setText((1023-sound_level) + " / 1023");
-                            if (sound_level>=490 && sound_level < 510)
+                            sound_level = 1023 - Integer.parseInt(result[2]);
+                            snd_lvl.setProgress(sound_level);
+                            adc.setText((sound_level) + " / 1023");
+                            ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                            if (sound_level>=510 && sound_level <= 520)
                             {
                                 root = findViewById(android.R.id.content);
                                 root.setBackgroundColor(Color.parseColor("#f0e5a5"));
-                                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
                                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
+                                try {
+                                    toneG.wait(200);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                            else if (sound_level<490)
+                            else if (sound_level>520)
                             {
                                 root = findViewById(android.R.id.content);
                                 root.setBackgroundColor(Color.parseColor("#ff4f00"));
-                                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-                                toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 2000);
+                                toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000);
+                                try {
+                                    toneG.wait(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             else
                             {
@@ -168,6 +177,8 @@ public class MainActivity extends Activity {
                                 root.setBackgroundColor(Color.parseColor("#c5edd7"));
                             }
                             pres_lvl.setText(result[3]+" mmHg");
+                            toneG.release();
+
                         }
                     });
                 } catch (final IOException e) {

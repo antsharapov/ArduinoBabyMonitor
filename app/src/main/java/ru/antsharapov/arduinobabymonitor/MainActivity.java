@@ -167,7 +167,7 @@ public class MainActivity extends Activity {
                                 root.setBackgroundColor(Color.parseColor("#ff4f00"));
                                 toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 1000);
                                 try {
-                                    Thread.sleep(1500);
+                                    Thread.sleep(1100);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
